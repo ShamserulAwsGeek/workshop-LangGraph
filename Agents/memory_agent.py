@@ -4,3 +4,11 @@ from langchain_core.messages import HumanMessage, AIMessage
 from langchain_openai import ChatOpenAI
 from langgraph.graph import StateGraph, START, END
 from dotenv import load_dotenv  # used to store secret stuffs like API keys or configuration values.
+
+
+load_dotenv()  # Load environment variables from a .env file
+
+class AgentState(TypedDict):
+    messages: List[Union[HumanMessage, AIMessage]]
+
+llm= chatOpenAI(model = "gpt-40")
