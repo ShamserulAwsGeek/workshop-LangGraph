@@ -9,7 +9,7 @@ load_dotenv()  # Load environment variables from a .env file
 class AgentState(TypedDict):
     messages: Lists[HumanMessage]
 
-llm = chatOpenAI(model = "gpt-40")
+llm = chatOpenAI(model = "gpt-4o")
 
 
 def process(state: AgentState) -> AgentState:
