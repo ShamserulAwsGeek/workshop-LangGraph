@@ -12,3 +12,12 @@ class AgentState(TypedDict):
     messages: List[Union[HumanMessage, AIMessage]]
 
 llm= chatOpenAI(model = "gpt-40")
+
+def process(state:AgentState) -> AgentState:
+    """this node will solve the requested input"""
+    response = llm.invoke(state["messages"])
+
+    state["messages"].append(AIMessage(content=response.content))
+    print(f"nAI: {response.content}")
+    print("CURRENT STATE:", state["messages"])
+    return state
