@@ -78,4 +78,24 @@ def save(filename: str) -> str:
     
     return {"messages": list(state["messages"]) + [user_message, response]}
 
+def should_continue(state: AgentState) -> str: 
+    """ Determine if we should continue or end the conversation"""
+
+    messages = state["messages"]
+    if not messages:
+        return "continue"
+    
+    #This looks for the most recent tool message ....
+    for message in reversed(messages):
+        # ....and checks if this is a ToolMessage resulting from save
+        if (isinstance(message, ToolMessage) and 
+            "saved" in message.content.lower() and
+            "document" in message.content.lower()):
+             return "end" # goes to the end edge which leads to the endpoint
+    return "continue"  # goes to the continue edge which loops back to the agent node
+
+
+        
+            
+         
        
