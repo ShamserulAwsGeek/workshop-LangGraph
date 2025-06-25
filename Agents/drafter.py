@@ -46,3 +46,30 @@ def save(filename: str) -> str:
     tools =[update, save]
 
     model = ChatOpenAI(model= "gpt-4o").bind_tools(tools)
+
+
+    def our_agent(state:AgentState) -> AgentState:
+        system_prompt = SystemMessage( content = f"""
+        You are Drafter, a helpful writing assistant. You are going to help the user update and modify documents.
+
+        - If the user wants to update or modify content, use the 'update' tool with the complete updated content.
+        - If the user wants to save and finish, you need to use the 'save' tool.
+        - Make sure to always show the current document state after modifications.
+
+        The current document content is : {document_content}
+        """)
+
+    
+    if not state["messages"]:
+        user_input = "I'm ready to help you update a document.What would you like to create?"
+        user_message = HumanMessage(content=user_input)
+
+    else:
+        user_input = input("\n What would you like to do with the document? ")
+        print(f"\n USER: {user_input}")
+        user_message = HumanMessage(content=user_input)
+
+    all_messages = [system_prompt] + list(state["messages"]) + [user_message]
+    response = model.invoke(all_messages)
+        
+        
