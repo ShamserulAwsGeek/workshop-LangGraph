@@ -72,4 +72,10 @@ def save(filename: str) -> str:
     all_messages = [system_prompt] + list(state["messages"]) + [user_message]
     response = model.invoke(all_messages)
         
-        
+    print(f"\n AI : {response.content}")
+    if hasasttr(response,"tools_calls") and response.tools_calls:
+        print(f"\n USING TOOLS: {[tc['name'] for tc in response.tools_calls]} ")\
+    
+    return {"messages": list(state["messages"]) + [user_message, response]}
+
+       
