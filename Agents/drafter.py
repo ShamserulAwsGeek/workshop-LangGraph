@@ -95,7 +95,21 @@ def should_continue(state: AgentState) -> str:
     return "continue"  # goes to the continue edge which loops back to the agent node
 
 
-        
+def print_messages(messages):
+    """ Function I made to print the messages in a readable format"""
+    if not messages:
+        return
+    
+    for message in messages[-3:]:
+        if isinstance(message, ToolMessage):
+            print(f"\n TOOL RESULT: {message.content}") 
+
+
+
+graph = StateGraph(AgentState)
+graph.add_node("agent", our_agent)
+graph.add_node("tools", ToolNode(tools))
+
             
          
        
