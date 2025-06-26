@@ -136,11 +136,7 @@ def run_document_agent():
             print_messages(step["messages"])
     
     print("\n ====== END OF DRAFTER =======\n")
-    
+
 
 if __name__ == "__main__":
-    run_document_agent()
-
-            
-         
-       
+    run_document_agent() 
