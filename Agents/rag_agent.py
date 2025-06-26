@@ -49,3 +49,23 @@ text_splitter = RecursiveCharacterTextSplitter(
 pages_split = text_splitter.split_documents(pages) # We now apply this to our pages
 persist_directory = r"C:\mhaque\LangGraph_Book\LangGraphCourse\Agents"  # Directory to persist the database
 collection_name = "rag_collection"  # Name of the collection
+
+
+# If our collection does not exist in the directory, we create using the os command
+if not os.path.exists(persist_directory):
+    os.makedirs(persist_directory)
+
+
+try:
+    # Here, we actually create the chroma database using our embeddigns model
+    vectorstore = chroma.from_documents(
+        documents = pages_split,
+        embedding = embeddings,
+        persist_directory = persist_directory,
+        collection_name = collection_name
+    )
+    print(f"Created ChromaDB vector store!")
+
+except Exception as e:
+    print(f"Error setting up ChromaDB: {e}")
+    raise
