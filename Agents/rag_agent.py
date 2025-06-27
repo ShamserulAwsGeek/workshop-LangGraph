@@ -128,6 +128,11 @@ def call_llm(state: AgentState) -> AgentState:
 
 
 # Retriever Agent
+def take_action(state:AgentState) -> AgentState:
+    """ execute tool call from the LLM's response"""
+
+    tools_calls = state["messages"][-1].tool_calls
+    results = []
 
 
 
