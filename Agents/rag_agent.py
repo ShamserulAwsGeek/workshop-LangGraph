@@ -74,4 +74,36 @@ except Exception as e:
 retriever = vectorstore.as_retriever(
     search_type = "similarity",  # Type of search to perform
     search_kwargs = {"k": 5 } # Number of documents to retrieve
-)    
+)
+
+@tool
+def retriever_tool(query: str) -> str:
+    """ This tool searches and returns the information from the PDF based on the query."""
+
+    docs = retriever.invoke(query)  # Use the retriever to get relevant documents
+
+    if not docs:
+        return "I found no relevant information in the PDF."
+    
+    results = []
+    for i, doc in enumerate(docs):
+        results.append(f"Document {i+1}:\n{doc.page_content}\n")
+    
+    return "\n\n".join(results)
+
+tools = [retriever_tool]
+
+llm = llm.bind_tools(tools)  # Bind the tools to the LLM
+
+class AgentState(TypedDict):
+    messages : Annotated[Sequence[BaseMessage], add_messages]
+
+
+def should_continue(state: AgentState):
+    """ check if the last message conatins tool calls"""
+    result = state["messages"][-1]
+    return hasattr(result, "tool_calls") and len(result.tool_calls) > 0
+
+    
+    
+    
