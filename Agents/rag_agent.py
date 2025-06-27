@@ -69,3 +69,9 @@ try:
 except Exception as e:
     print(f"Error setting up ChromaDB: {e}")
     raise
+
+# Now we create our retriever 
+retriever = vectorstore.as_retriever(
+    search_type = "similarity",  # Type of search to perform
+    search_kwargs = {"k": 5 } # Number of documents to retrieve
+)    
