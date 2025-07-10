@@ -1,3 +1,5 @@
+
+#this file start up the program
 def main():
     print("Hello from workshop-langgraph!")
 
